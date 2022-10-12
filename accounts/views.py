@@ -15,12 +15,13 @@ from django.urls import reverse
 
 import jwt
 
-# Create your views here.
 
 class RegisterView(GenericAPIView):
     serializer_class = UserSerializer
+    print("sclass",serializer_class)
 
     def post(self, request):
+        print("here")
         serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():

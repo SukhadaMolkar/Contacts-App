@@ -19,7 +19,7 @@
 
 <script>
 import axios from 'axios'
-import { response } from 'express'
+// import { response } from 'express'
 
     export default{
         name:"RegisterView",
@@ -29,29 +29,32 @@ import { response } from 'express'
                 firstname:'',
                 lastname:'',
                 email:'',
-                password:''
             }
         },
-        // methods: {
-        //     submitDetails(e) {
-        //         const formData={
-        //             username:this.username,
-        //             firstname:this.firstname,
-        //             lastname:this.lastname,
-        //             email:this.email,
-        //             password:this.password
-        //         }
-        //         axios
-        //         .post("/api/acc/register/",FormData)
-        //         .then(response => {
-        //             console.log(response)
-        //             this.$router.push("/register")
-        //         })
-        //         .catch(error => {console.log(error)
-        //         })   
-        //     }
+        methods: {
+            submitDetails(e) {
+                const formData={
+                    username:this.username,
+                    firstname:this.firstname,
+                    lastname:this.lastname,
+                    email:this.email,
+                    password:this.password
+                }
+                axios
+                .post("/api/acc/register/",FormData, {"headers": { 
+                                    "Access-Control-Allow-Origin": "*",
+                                    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                                    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+                                }})
+                .then(response => {
+                    console.log(response)
+                    this.$router.push("/register")
+                })
+                .catch(error => {console.log(error.response)
+                })   
+            }
             
-        // }
+        }   
 
     }
 </script>

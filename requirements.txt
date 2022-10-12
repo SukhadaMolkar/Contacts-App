@@ -3,3 +3,4 @@ djangorestframework
 djangorestframework_simplejwt
 PyJWT
 environ
+django-cors-headers

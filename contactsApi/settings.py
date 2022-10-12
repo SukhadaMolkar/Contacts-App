@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from corsheaders.defaults import default_headers
 import os
 import environ
 env = environ.Env()
@@ -30,8 +31,18 @@ SECRET_KEY = 'django-insecure-^+sqlevqe37bal*ra!*5ug1o3++63a0%3s1cg5hmzlbm$7__3u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
 
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+    'http://localhost:8082',
+    'http://10.10.10.247:8082',
+    'http://10.10.10.247:8080',
+    'http://10.10.10.247:8083',
+)
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 REST_FRAMEWORK = {
@@ -64,18 +75,25 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'contacts',
+    'corsheaders',
     'drf_yasg'
 
 ]
 
 MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "x-api-key",
+    "TENANTID",
 ]
 
 ROOT_URLCONF = 'contactsApi.urls'
