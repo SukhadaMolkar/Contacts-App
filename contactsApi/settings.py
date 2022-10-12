@@ -38,11 +38,19 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://localhost:8082',
-    'http://10.10.10.247:8082',
-    'http://10.10.10.247:8080',
-    'http://10.10.10.247:8083',
+    # 'http://10.10.10.247:8082',
+    # 'http://10.10.10.247:8080',
+    # 'http://10.10.10.247:8083',
 )
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS=["*"]
+
+# CORS_ALLOW_HEADERS = list(default_headers) + [
+#     "x-api-key",
+#     "TENANTID",
+# ]
+
 
 # Application definition
 REST_FRAMEWORK = {
@@ -81,20 +89,16 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "x-api-key",
-    "TENANTID",
-]
 
 ROOT_URLCONF = 'contactsApi.urls'
 
