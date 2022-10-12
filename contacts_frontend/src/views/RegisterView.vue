@@ -29,19 +29,21 @@ import axios from 'axios'
                 firstname:'',
                 lastname:'',
                 email:'',
+                password:""
             }
         },
         methods: {
             submitDetails(e) {
                 const formData={
-                    username:this.username,
-                    firstname:this.firstname,
-                    lastname:this.lastname,
-                    email:this.email,
-                    password:this.password
+                    "username":this.username,
+                    "first_name":this.firstname,
+                    "last_name":this.lastname,
+                    "email":this.email,
+                    "password":this.password
                 }
+                console.log(formData)
                 axios
-                .post("/api/acc/register/",FormData, {"headers": { 
+                .post("/api/acc/register/", formData, {"headers": { 
                                     "Access-Control-Allow-Origin": "*",
                                     "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
                                     "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"

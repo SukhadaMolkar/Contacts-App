@@ -13,8 +13,7 @@
 
 <script>
 import axios from 'axios'
-import RegisterViewVue from './RegisterView.vue'
-// import register from RegisterViewVue
+// import RegisterViewVue from './RegisterView.vue'
     export default{
         name:"LoginView",
         data() {
@@ -29,12 +28,19 @@ import RegisterViewVue from './RegisterView.vue'
                     username:this.username,
                     password:this.password
                 }
+                console.log(formData)
                 axios
-                .post("api/acc/login",formData,{"headers": { 
+                .post("/api/acc/login/",formData,{"headers": { 
                                     "Access-Control-Allow-Origin": "*",
                                     "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
                                     "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
                                 }})
+                                .then(response => {
+                    console.log(response)
+                    this.$router.push("/login")
+                })
+                .catch(error => {console.log(error.response)
+                })   
             }
         }
     }
