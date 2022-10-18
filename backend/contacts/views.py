@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import  ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Contact
 from .serializers import ContactSerializer
 from rest_framework import permissions
@@ -25,3 +25,8 @@ class ContactDetailView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Contact.objects.filter(owner=self.request.user)
+
+
+def new(request):
+    mem = Contact.objects.all()
+    return render(request,'ContactsListView.vue',{'mem': mem})

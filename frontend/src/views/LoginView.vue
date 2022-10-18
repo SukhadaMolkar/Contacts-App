@@ -7,6 +7,7 @@
             <label>Password</label>
             <input type="text" name="password" v-model="password"> <br><br>
             <button type="submit">LogIn</button>
+            <!-- <router-link :to="{ path: '/contactsList' }"><button type="submit">LogIn</button></router-link> -->
         </form>
     </div>
 </template>
@@ -17,10 +18,11 @@ import axios from 'axios'
     export default{
         name:"LoginView",
         data() {
-            return{
+            return{ 
                     username:"",
-                    password:""
-            }
+                    password:"",
+                    token: ""
+                }
         },
         methods:{
             submitDetails(e) {
@@ -29,17 +31,32 @@ import axios from 'axios'
                     password:this.password
                 }
                 console.log(formData)
-                axios
-                .post("/api/acc/login/",formData,{"headers": { 
+                const headers={ 
                                     "Access-Control-Allow-Origin": "*",
                                     "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
                                     "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-                                }})
-                                .then(response => {
-                    console.log(response)
+                                }
+                axios
+                .post("/api/acc/login/",formData,{"headers": headers})
+                .then(response => {
+                    // localStorage.setItem("user",this.username)
+                    localStorage.setItem("token",response.data.token)
+                    alert("you are logged in")
+                    
                     this.$router.push("/login")
+                    this.$router.push("/contactsList")
                 })
                 .catch(error => {console.log(error.response)
+                    // alert(console.log(error.response.data.detail))
+                    console.log(this.username)
+                    if (this.username=="") {
+                        alert("Username is Undefined")
+                    } else if (this.password=="") {
+                        alert("Password is missing")
+                    } else {
+                        alert("Invalid Credentials. You must register first")
+                        this.$router.push("/register")
+                    }
                 })   
             }
         }

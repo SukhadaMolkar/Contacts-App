@@ -29,8 +29,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
             return None
 
         prefix,token=auth_data.decode("utf-8").split(" ")
-
-
         # payload = jwt.decode(token, JWT_SECRET_KEY,algorithms='HS256',options=jwt_options)
 
         try:

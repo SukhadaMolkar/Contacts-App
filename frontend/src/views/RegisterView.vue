@@ -51,6 +51,7 @@ import axios from 'axios'
                 .then(response => {
                     console.log(response)
                     this.$router.push("/register")
+                    this.$router.push("/login")
                 })
                 .catch(error => {console.log(error.response)
                 })   
