@@ -11,9 +11,13 @@ class ContactList(ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
+        print("self.request.user",self.request.user)
         serializer.save(owner=self.request.user)
+        name_owner=self.get_queryset()
+        print(name_owner)
 
     def get_queryset(self):
+        print("queryset")
         return Contact.objects.filter(owner=self.request.user)
 
 
@@ -30,3 +34,11 @@ class ContactDetailView(RetrieveUpdateDestroyAPIView):
 def new(request):
     mem = Contact.objects.all()
     return render(request,'ContactsListView.vue',{'mem': mem})
+
+#
+# class OwnerContacts(ContactList):
+#     serializer_class = ContactSerializer
+#     permission_classes = (permissions.IsAuthenticated,)
+#
+#     val=ContactList.get_queryset()
+#     print(val)

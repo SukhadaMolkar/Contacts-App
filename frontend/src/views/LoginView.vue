@@ -39,7 +39,7 @@ import axios from 'axios'
                 axios
                 .post("/api/acc/login/",formData,{"headers": headers})
                 .then(response => {
-                    // localStorage.setItem("user",this.username)
+                    localStorage.setItem("user",this.username)
                     localStorage.setItem("token",response.data.token)
                     alert("you are logged in")
                     

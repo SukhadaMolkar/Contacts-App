@@ -24,6 +24,9 @@
         <form v-on:submit.prevent="logOut">
             <button type="submit">Log Out</button>
         </form>
+        <form v-on:submit.prevent="getContact">
+            <button type="submit">Get Contact</button>
+        </form>
     </div>
 </template>
 
@@ -35,6 +38,7 @@ export default{
         name:"ContactsListDetailView",
         data() {
             return {
+                // owner_name:localStorage.getItem("user"),
                 country_code:"",
                 first_name:"",
                 last_name:"",
@@ -46,6 +50,7 @@ export default{
         methods: {
             submitDetails(e) {
                 const contactFormData={
+                // owner_name:localStorage.getItem("user"),
                 country_code:this.country_code,
                 first_name:this.first_name,
                 last_name:this.last_name,
@@ -58,11 +63,11 @@ export default{
                                     "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
                                     "Authorization": "Bearer "+localStorage.getItem("token")}
                 console.log(contactFormData)
-                console.log(headers)
                 axios
-                .post("/api/contacts/", contactFormData, {headers: headers})
+                .post("/api/contacts/contact/", contactFormData, {headers: headers})
                 .then(response => {
-                    console.log(response)
+                    console.log(response.data)
+                    localStorage.setItem("contact",JSON.stringify(response.data))
                     this.$router.push("/contactsListDetails")
                 })
                 .catch(error => {console.log(error.response)
@@ -73,8 +78,25 @@ export default{
                 // axios
                 // .then(localStorage.removeItem("token") )
                 localStorage.removeItem("token")
+                localStorage.removeItem("user")
+                alert("logging out")
                 this.$router.push("/login")
+            },
+            getContact(e) {
+                const headers = {"Access-Control-Allow-Origin": "*",
+                                    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                                    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+                                    "Authorization": "Bearer "+localStorage.getItem("token")}
+                const formData={
+                    id:this.id
                 }
+                axios
+                .post("/api/contacts/contact/", formData, {headers: headers})
+                .then(response => {
+                    console.log(response)
+                    this.$router.push("/contactsListDetails")
+                })
+            }
             }
         }
     

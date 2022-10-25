@@ -9,6 +9,7 @@
         <thead>
           <tr>
             <!-- <th>Contact Person</th>  |   -->
+            <!-- <th>Owner</th> | -->
             <th>First Name</th>  |  
             <th>Last Name</th>  |  
             <th>Country Code</th>  |  
@@ -16,18 +17,23 @@
           </tr>
         </thead>
 
-        <tbody>
+        <!-- <tbody> -->
           <!-- {% for contact in mem %} -->
-          <tr v-for="contact in ContactDetails" :key="contact.id">
+          <tr v-for="contact in listOfContacts" :key="contact">
+          <!-- <tr v-for="(contact, index) in listOfContacts" :key="index"> -->
             <!-- <tr> -->
+            <!-- <td>{{contact.owner}}</td> -->
             <!-- <td>{{contact.owner}}</td> -->
             <td>{{contact.first_name}}</td>
             <td>{{contact.last_name}}</td>
             <td>{{contact.country_code}}</td>
             <td>{{contact.phone_number}}</td>
           </tr>
-        </tbody>
+        <!-- </tbo+dy> -->
       </table>
+      <form v-on:submit.prevent="getContactsofOwner">
+            <button type="submit">Get Contact</button>
+      </form>
       <router-link :to="{ path: '/contactsListDetails' }"><button>Add Contact</button></router-link> <br><br>
       <form v-on:submit.prevent="logOut">
             <button type="submit">Log Out</button>
@@ -37,37 +43,77 @@
 </template>
 
 <script>
+// import { apiHost} from '../config'
 import axios from 'axios'
-// console.log("storage",localStorage.getItem("user"))
-// document.getElementById("username").innerHTML=localStorage.getItem("user")
 export default{
   name:"ContactsListView",
   data() {
     return {
-      ContactDetails:[]
+      listOfContacts:[]
     }
   },
-  // mounted() {
-  //   axios
-  //   .get('http://localhost:8000/admin/contacts/contact/', {responseType:"json"})
-  //   .then((response) => {
-  //     formatContacts(response.data)
-  //   })
 
-  // },
-  methods: {
-    formatContacts(contactData) {
-      for (let key in contactData) {
-        this.ContactDetails.push({...contactData[key],owner:key})
+  methods:  {
+    
+    setDetailedContacts(contacts) {
+      // include all data from the contact list response
+      console.log(contacts,"inside set")
+    
+      for (let contact in contacts) {
+        // let listOfDetails=[]
+        console.log(contact,"key")
+        let listOfDetails=Object.values(contacts[contact])
+
+        console.log(listOfDetails,"final list")
+        // this.listOfContacts.push(listOfDetails)
+
+        this.listOfContacts.push({...listOfDetails})
       }
+      console.log(this.listOfContacts, "list of contacts values only")
     },
+
+    getContactsofOwner() {
+      let that = this;
+      axios
+        .get('http://localhost:8000/api/contacts/contact/',  
+        {headers:{Accept: "application/json", "Content-Type": "application/json;charset=UTF-8", Authorization: "Bearer " + localStorage.getItem("token")}},
+        {responseType:"json"})
+
+        .then(function (response) {
+          if (response.status == 200) {
+            console.log("response 200",response.data)
+            // this.setDetailedContact(response.data);
+            that.setDetailedContacts(response.data)
+          }
+        })
+
+        .catch(error => {console.log(error.response)
+                  })
+    },
+
     logOut(e) {
       // axios
       // .then(localStorage.removeItem("token") )
       localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      alert("logging out")
       this.$router.push("/login")
-      }
+      
   },
+
+  created() {
+    console.log("entered in mounted")
+    console.log("this",this)
+    // this.getContactsofOwners();
+    this.getContactsofOwner()
+    
+        // this.ContactDetails.push({...contactData[key],owner:key})
+      }
+  }
 }
+
+  
+  
+
 </script>
   

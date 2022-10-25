@@ -5,6 +5,6 @@ from .models import Contact
 
 # @admin_register(Contact)
 class AdminContact(admin.ModelAdmin):
-    list_display=["country_code","first_name","last_name","phone_number"]
+    list_display=["id","country_code","first_name","last_name","phone_number"]
 
 admin.site.register(Contact,AdminContact)

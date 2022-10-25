@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Contact(models.Model):
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    # owner_name = models.CharField(max_length=30,blank=True)
     country_code = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

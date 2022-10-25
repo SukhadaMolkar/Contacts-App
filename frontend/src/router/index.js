@@ -38,7 +38,12 @@ const routes = [
     path: '/contactsList',
     name: 'contactsList',
     component : ContactsListView
-  }
+  },
+  // {
+  //   path: '/test',
+  //   name: 'test',
+  //   // component : TestView
+  // }
 ]
 
 const router = createRouter({
