@@ -1,36 +1,26 @@
 <template>
     <div class="contactsList">
       <h1>Contact List of User</h1>
-      <!-- <p id="username "></p> -->
-      
-      <!-- <button type="button" onclick= "location.href=">Add COntact</button>
-      <a :href="'/job/' + r.id"></a> -->
-      <table class="table">
+      <table class="table" border="1">
         <thead>
-          <tr>
-            <!-- <th>Contact Person</th>  |   -->
             <!-- <th>Owner</th> | -->
-            <th>First Name</th>  |  
-            <th>Last Name</th>  |  
-            <th>Country Code</th>  |  
-            <th>Phone Number</th>  |  
-          </tr>
+            <th>First Name</th>  
+            <th>Last Name</th>   
+            <th>Country Code</th>  
+            <th>Phone Number</th> 
         </thead>
 
-        <!-- <tbody> -->
-          <!-- {% for contact in mem %} -->
-          <tr v-for="contact in listOfContacts" :key="contact">
-          <!-- <tr v-for="(contact, index) in listOfContacts" :key="index"> -->
-            <!-- <tr> -->
-            <!-- <td>{{contact.owner}}</td> -->
+        <tbody>
+          <tr v-for="contact in listOfContacts">
             <!-- <td>{{contact.owner}}</td> -->
             <td>{{contact.first_name}}</td>
             <td>{{contact.last_name}}</td>
             <td>{{contact.country_code}}</td>
             <td>{{contact.phone_number}}</td>
           </tr>
-        <!-- </tbo+dy> -->
+        </tbody>
       </table>
+
       <form v-on:submit.prevent="getContactsofOwner">
             <button type="submit">Get Contact</button>
       </form>
@@ -38,12 +28,10 @@
       <form v-on:submit.prevent="logOut">
             <button type="submit">Log Out</button>
       </form>
-          <!-- {% endfor %} -->
     </div>
 </template>
 
 <script>
-// import { apiHost} from '../config'
 import axios from 'axios'
 export default{
   name:"ContactsListView",
@@ -57,19 +45,12 @@ export default{
     
     setDetailedContacts(contacts) {
       // include all data from the contact list response
-      console.log(contacts,"inside set")
     
       for (let contact in contacts) {
-        // let listOfDetails=[]
-        console.log(contact,"key")
-        let listOfDetails=Object.values(contacts[contact])
-
-        console.log(listOfDetails,"final list")
-        // this.listOfContacts.push(listOfDetails)
-
-        this.listOfContacts.push({...listOfDetails})
+        this.listOfContacts.push({...contacts[contact]})
+        // console.log(JSON.parse(JSON.stringify(this.listOfContacts)))
+        
       }
-      console.log(this.listOfContacts, "list of contacts values only")
     },
 
     getContactsofOwner() {
@@ -81,19 +62,13 @@ export default{
 
         .then(function (response) {
           if (response.status == 200) {
-            console.log("response 200",response.data)
-            // this.setDetailedContact(response.data);
             that.setDetailedContacts(response.data)
           }
         })
-
-        .catch(error => {console.log(error.response)
-                  })
+        .catch(error => {console.log(error.response)})
     },
 
     logOut(e) {
-      // axios
-      // .then(localStorage.removeItem("token") )
       localStorage.removeItem("token")
       localStorage.removeItem("user")
       alert("logging out")
@@ -101,13 +76,8 @@ export default{
       
   },
 
-  created() {
-    console.log("entered in mounted")
-    console.log("this",this)
-    // this.getContactsofOwners();
+  mounted() {
     this.getContactsofOwner()
-    
-        // this.ContactDetails.push({...contactData[key],owner:key})
       }
   }
 }

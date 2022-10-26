@@ -17,7 +17,7 @@ class ContactList(ListCreateAPIView):
         print(name_owner)
 
     def get_queryset(self):
-        print("queryset")
+        print("queryset",self.request)
         return Contact.objects.filter(owner=self.request.user)
 
 

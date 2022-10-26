@@ -24,9 +24,6 @@
         <form v-on:submit.prevent="logOut">
             <button type="submit">Log Out</button>
         </form>
-        <form v-on:submit.prevent="getContact">
-            <button type="submit">Get Contact</button>
-        </form>
     </div>
 </template>
 
@@ -68,7 +65,7 @@ export default{
                 .then(response => {
                     console.log(response.data)
                     localStorage.setItem("contact",JSON.stringify(response.data))
-                    this.$router.push("/contactsListDetails")
+                    this.$router.push("/contactsList")
                 })
                 .catch(error => {console.log(error.response)
                 })   
@@ -81,27 +78,7 @@ export default{
                 localStorage.removeItem("user")
                 alert("logging out")
                 this.$router.push("/login")
-            },
-            getContact(e) {
-                const headers = {"Access-Control-Allow-Origin": "*",
-                                    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                                    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
-                                    "Authorization": "Bearer "+localStorage.getItem("token")}
-                const formData={
-                    id:this.id
-                }
-                axios
-                .post("/api/contacts/contact/", formData, {headers: headers})
-                .then(response => {
-                    console.log(response)
-                    this.$router.push("/contactsListDetails")
-                })
             }
             }
         }
-    
-    
-
-
-
 </script>

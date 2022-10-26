@@ -5,7 +5,7 @@
             <label>Username</label>
             <input type="text" name="username" v-model="username"> <br><br>
             <label>Password</label>
-            <input type="text" name="password" v-model="password"> <br><br>
+            <input type="password" name="password" v-model="password"> <br><br>
             <button type="submit">LogIn</button>
             <!-- <router-link :to="{ path: '/contactsList' }"><button type="submit">LogIn</button></router-link> -->
         </form>
